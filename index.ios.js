@@ -1,4 +1,5 @@
 // Import some code we need
+var Moment = require('moment');
 var React = require('react-native');
 var AppRegistry = React.AppRegistry;
 var Text = React.Text;
@@ -8,8 +9,7 @@ var StyleSheet = React.StyleSheet;
 var DayItem = require('./src/day-item');
 
 
-var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
-'Saturday']
+
 // Create a react Component
 // Learning: One file per Component!
 // Learning: A Component represents something we want to show on the screen
@@ -22,23 +22,25 @@ var Weekdays = React.createClass({
   // what we want our component to look like.
   render: function() {
     return <View style={styles.container}>
-      <Text>
-        Days of the week:
-      </Text>
       {this.days()}
     </View>
 
   },
   days: function() {
-    return DAYS.map(function(day){
-      // gets called one time for every element in the array
-      // returns an array of DayItems
-      return <DayItem day={day} />
-    });
-    // days will be an Array of DayItem components, one for each day of the week
-    // days = [DayItem day="Sunday" />, DayItem day="Monday" />,...]
+    var daysItems = [];
+
+    for (var i = 0; i <7; i++){
+      var day  = Moment().add(i, 'days').format('dddd');
+      daysItems.push(
+        <DayItem day={day} daysUntil={i} />
+      )
+    }
+
+    return daysItems;
   }
 });
+    // days will be an Array of DayItem components, one for each day of the week
+    // days = [DayItem day="Sunday" />, DayItem day="Monday" />,...]
 
 //Style the react component
 var styles = StyleSheet.create({
